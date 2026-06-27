@@ -16,10 +16,12 @@ def test_yield_asturias_en_rango_plausible():
     assert 1150 < r.yield_kwh_kwp < 1280, r.yield_kwh_kwp
 
 
-def test_cross_validacion_contra_pvgis():
-    """El modelo físico propio debe coincidir con PVGIS v5.2 dentro de ±5 %.
+def test_coherencia_con_pvgis():
+    """El yield del modelo debe quedar dentro de ±5 % del de PVGIS v5.2.
 
-    Cross-validación contra fuente autoritativa = credibilidad de ingeniería.
+    NO es validación independiente: la POA se toma de PVGIS y k_system está ajustado
+    al orden de pérdidas de PVGIS (14 %), así que el acuerdo es en parte por construcción.
+    Sirve como guard de regresión y como chequeo de coherencia, no como prueba de exactitud.
     """
     r = produccion_fv(1.0)
     desvio = abs(r.yield_kwh_kwp - PVGIS_YIELD_REF) / PVGIS_YIELD_REF

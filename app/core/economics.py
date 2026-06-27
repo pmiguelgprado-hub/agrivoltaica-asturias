@@ -7,17 +7,22 @@ Fuentes de los datos (ES 2026):
 - Consumo eléctrico granja vacuno lechero: 516 kWh/vaca·año (estudio Castilla y León,
   scielo S0004-05922013000300013; ~51 kWh por 1.000 kg de leche).
 - CAPEX FV autoconsumo: 800-1.400 €/kWp (Cambio Energético 2026); base media usada 1.000.
-- Sobrecoste estructura agrivoltaica elevada: +30 % (pérgola alta, cargas de viento).
 - Precio compra electricidad agraria/PVPC ~0,18 €/kWh; excedente compensado ~0,06 €/kWh.
+
+ASUNCIÓN (no citada, expuesta como sensibilidad en la UI): el sobrecoste de la estructura
+agrivoltaica ELEVADA a altura de vacuno (pérgola alta ~4 m, cargas de viento, protección
+frente al ganado) NO está tomado de una fuente. La literatura sitúa el premium entre +50 %
+y +100 % sobre ground-mount; aquí el default es +60 % y el usuario lo ajusta con un control
+de sensibilidad. Es el número que más afecta al payback -> se trata como variable, no dato.
 """
 from __future__ import annotations
 
 from dataclasses import dataclass
 
-# --- Defaults citados (editables en la UI) ---
-KWH_POR_VACA_ANIO = 516.0       # consumo eléctrico medio por vaca productora
-CAPEX_BASE_KWP = 1000.0         # €/kWp instalación FV estándar
-PREMIUM_AGRIVOLTAICO = 1.30     # sobrecoste estructura elevada sobre pradera
+# --- Defaults (editables en la UI) ---
+KWH_POR_VACA_ANIO = 516.0       # consumo eléctrico medio por vaca productora (citado)
+CAPEX_BASE_KWP = 1000.0         # €/kWp instalación FV estándar (citado)
+PREMIUM_AGRIVOLTAICO = 1.60     # ASUNCIÓN: sobrecoste estructura elevada (rango 1,3-2,0)
 OPEX_FRAC_CAPEX = 0.015         # O&M anual como fracción del CAPEX
 PRECIO_COMPRA = 0.18            # €/kWh
 PRECIO_EXCEDENTE = 0.06         # €/kWh

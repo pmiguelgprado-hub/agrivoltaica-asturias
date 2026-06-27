@@ -78,16 +78,18 @@ def informe_html(d: DatosInforme) -> str:
 <div class="kpi">Prado ocupado<b>{_es(d.area_m2)} m²</b></div>
 <div class="kpi">Luz al pasto<b>{_es(d.luz_pasto_pct)} %</b></div>
 <div class="kpi">Aprovechas la tierra<b>{_es(d.ler,2)}×</b></div>
-<p>Las placas van elevadas sobre una esquina del prado. El ganado pasta debajo y se
- resguarda de la lluvia y el viento. El índice de aprovechamiento del suelo (LER) de
- {_es(d.ler,2)}× indica que la finca rinde más con el doble uso que dedicada a una sola cosa.</p>
+<p>Solo se ocupa una esquina del prado: el resto sigue dando pasto y, bajo las placas
+ elevadas, el ganado se resguarda de la lluvia y el viento. La ventaja no es optimizar el
+ suelo sino un ingreso extra y refugio sin perder pradera. En la franja ocupada, el índice
+ de doble uso (LER) es {_es(d.ler,2)}× (métrica técnica, no clave del proyecto).</p>
 
 <h2>El ganado, a gusto</h2>
 <p>En el verano asturiano el índice de estrés térmico (THI) ronda {_es(d.thi)}
  (estrés {d.thi_nivel}, no severo). El beneficio principal de la placa elevada aquí es
  el <b>refugio</b> de lluvia y viento, no la sombra contra el calor.</p>
 
-<p class="src">Fuentes: PVGIS v5.2 (recurso solar) · consumo 516 kWh/vaca·año (estudio
+<p class="src">Fuentes: recurso solar de PVGIS v5.2 · consumo 516 kWh/vaca·año (estudio
  Castilla y León) · CAPEX FV 800-1.400 €/kWp (mercado ES 2026) · THI NRC 1971.
- Modelo físico validado contra PVGIS (&lt;1 % de desvío).</p>
+ Modelo de pérdidas coherente con PVGIS. El sobrecoste de la estructura elevada es una
+ asunción ajustable, no un dato.</p>
 </body></html>"""

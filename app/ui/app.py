@@ -57,13 +57,20 @@ gcr = st.select_slider(
     format_func=lambda g: f"{int((1-g)*100)}% luz al pasto",
     help="Paneles más juntos = más energía pero menos luz al pasto.",
 )
-ayuda_pct = st.slider("Ayuda a fondo perdido (%)", 0, 65, 40, step=5,
-                      help="Subvención posible (modernización agraria / upside PAC). Sin ella también se calcula.")
+col_c, col_d = st.columns(2)
+with col_c:
+    ayuda_pct = st.slider("Ayuda a fondo perdido (%)", 0, 65, 40, step=5,
+                          help="Subvención posible (modernización agraria / upside PAC). Sin ella también se calcula.")
+with col_d:
+    premium_pct = st.slider("Sobrecoste estructura elevada (%)", 30, 100, 60, step=5,
+                            help="ASUNCIÓN, no dato: encarecer la pérgola alta para vacuno. "
+                                 "Mueve este control para ver cuánto cambia el payback.")
 
 # ---------------- cálculo ----------------
 ag = evaluar_por_potencia(kwp, gcr, ubic)
 sc = simular_autoconsumo(kwp, consumo_granja(vacas), ubic)   # autoconsumo hora a hora
 ec = evaluar_economia(kwp, ag.energia_anual_kwh, vacas, ayuda_frac=ayuda_pct / 100,
+                      premium=1 + premium_pct / 100,
                       fraccion_autoconsumo_override=sc.fraccion_autoconsumo)
 
 # ---------------- 2 · Lo que ganas ----------------
@@ -85,11 +92,13 @@ st.subheader("3 · Y sigues teniendo pasto")
 d1, d2, d3 = st.columns(3)
 d1.metric("Prado ocupado", f"{ag.area_terreno_m2:,.0f} m²".replace(",", "."))
 d2.metric("Luz al pasto", f"{ag.transmitancia_pasto*100:,.0f} %")
-d3.metric("Aprovechas la tierra", f"{ag.ler:.2f}×")
-st.caption(f"Las placas van elevadas sobre una esquina del prado ({ag.area_terreno_m2:.0f} m², "
-           f"{ag.area_terreno_m2/10000:.3f} ha). El ganado sigue pastando debajo y se "
-           f"resguarda de la lluvia y el viento. «Aprovechas la tierra {ag.ler:.2f}×» "
-           f"(LER) significa que sacas más del prado que dedicándolo solo a una cosa.")
+d3.metric("Doble uso (LER)", f"{ag.ler:.2f}×")
+st.caption(f"Solo se usa una **esquina del prado** ({ag.area_terreno_m2:.0f} m², "
+           f"{ag.area_terreno_m2/10000:.3f} ha): el resto sigue dando pasto y, bajo las placas "
+           f"elevadas, el ganado se resguarda de la lluvia y el viento. Lo que ganas no es "
+           f"optimizar el suelo, sino **un ingreso extra + refugio sin perder pradera**. "
+           f"En la franja ocupada, el índice de doble uso (LER) es {ag.ler:.2f}× — métrica "
+           f"técnica, no clave del proyecto.")
 
 # ---------------- 4 · El ganado, a gusto ----------------
 valor_thi = thi(ASTURIAS_VERANO_T, ASTURIAS_VERANO_RH)
@@ -125,6 +134,8 @@ st.download_button("📄 Descargar informe imprimible (HTML)",
                    mime="text/html",
                    help="Ábrelo en el navegador e imprímelo o guárdalo en PDF.")
 
-st.caption("Fuentes: PVGIS v5.2 (recurso solar Tineo) · consumo 516 kWh/vaca·año (estudio "
+st.caption("Fuentes: recurso solar de PVGIS v5.2 (Tineo) · consumo 516 kWh/vaca·año (estudio "
            "Castilla y León) · CAPEX FV 800-1.400 €/kWp (mercado ES 2026) · THI NRC 1971. "
-           "Modelo validado contra PVGIS (<1% de desvío). Versión It-3.")
+           "El modelo físico de pérdidas es coherente con el de PVGIS (mismo recurso, mismo "
+           "orden de pérdidas). El sobrecoste de la estructura elevada es una asunción "
+           "ajustable, no un dato. Versión It-3.")

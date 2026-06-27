@@ -47,15 +47,26 @@ Registro vivo del loop autopautado. Cada entrada = un estado commiteado y revisa
       `docs/screenshots/desktop.png`) + informe ✅ (`informe.png`). Accesible: titulares
       grandes, español llano, honesto.
 - [x] App It-3 + 37 tests verde. Commit.
-- [ ] Móvil: captura salió en blanco (artefacto timing headless en viewport estrecho, no
-      fallo confirmado). PENDIENTE verificación móvil real.
+- [x] **Móvil verificado** (`docs/screenshots/movil.png`): renderiza accesible (columna única,
+      texto grande). El blanco previo era artefacto MULTI-SESIÓN (2 páginas al mismo Streamlit
+      → 2ª sesión vacía), no bug responsive. Captura en browser fresco = PASS.
 - [ ] Selector de ubicación (varios concejos)→PVGIS. Diferido (opcional).
 
-### It-4 (gated — esperar OK Pablo)
-- [ ] Llamar a advisor antes de empezar.
-- [ ] Memoria de proyecto para la beca (draft escribible sin Pablo).
-- [ ] README con capturas.
-- [ ] **Push a GitHub** (GATED, esperar OK explícito de Pablo).
+### It-3b — pase de honestidad (correcciones advisor)
+- [x] **CAPEX premium = ASUNCIÓN, no dato**: estructura altura-vacuno real +50-100%, no +30%.
+      Default subido a +60% y EXPUESTO como slider de sensibilidad. Headline honesto cambia:
+      ahorro 1.897 €/año, payback **8,6 años con ayuda / 14,3 sin** (antes 6,7/11,2), LCOE 0,103.
+- [x] **"Validado <1% vs PVGIS" era circular** (POA tomada de PVGIS + k_system ajustado a su
+      modelo) → reescrito a "modelo de pérdidas coherente con PVGIS" en app, informe y test.
+- [x] **LER 1,35× repositionado**: hueco en 231 m²; ahora se vende "esquina libre + refugio +
+      ingreso extra", LER como métrica técnica secundaria. App + informe.
+- [x] 37 tests verde. Commit.
+
+### It-4 — HOLD (terminus esperar-a-Pablo; advisor: NO iterar autónomo más)
+- [ ] **GATE 1 — confirmar idea A** (sin confirmar tras 3 iter; no escribir memoria a ciegas).
+- [ ] **GATE 2 — conseguir las BASES reales de la convocatoria** (nunca verificadas, todo de
+      memoria; formato/criterios/entregable desconocidos). Probablemente necesita a Pablo.
+- [ ] Solo entonces: memoria de beca + README con capturas + push GitHub (GATED).
 
 ## Checkpoints para Pablo (revisar cuando vuelva)
 - ¿Idea A correcta? (si no, revertir barato — spec §0).
