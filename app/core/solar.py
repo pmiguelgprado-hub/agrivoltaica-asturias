@@ -52,12 +52,20 @@ def k_system() -> float:
     return k
 
 
-# --- Recurso solar PROVISIONAL Asturias central (POA plano óptimo ~35 deg) ---
-# H_poa en kWh/m2/mes ; Tamb media mensual en C. PROVISIONAL -> verificar PVGIS It-2.
-POA_ASTURIAS_PROVISIONAL = [55, 70, 110, 130, 150, 160,
-                            175, 165, 130, 95, 60, 48]   # ~1348 kWh/m2/año
-TAMB_ASTURIAS_PROVISIONAL = [8.5, 9.0, 10.5, 12.0, 14.5, 17.0,
-                             19.0, 19.5, 17.5, 14.5, 11.0, 9.0]
+# --- Recurso solar REAL Asturias (Tineo, concejo ganadero SO) ---
+# Fuente: PVGIS v5.2 (JRC, base SARAH3), lat 43,34 / lon -6,41, plano fijo óptimo
+# (slope 37 deg, azimut sur). H(i)_m = irradiación mensual en plano [kWh/m2].
+# Verificado 2026-06-27 vía API PVcalc. Sustituye los datos PROVISIONALES de It-1.
+POA_TINEO_PVGIS = [80.5, 96.8, 132.7, 142.0, 154.3, 149.5,
+                   167.1, 172.5, 151.2, 125.4, 83.4, 83.9]   # 1539,3 kWh/m2/año
+# Energía PVGIS para 1 kWp con 14 % de pérdidas de sistema (referencia de validación).
+PVGIS_YIELD_REF = 1219.5  # kWh/kWp/año
+
+# Temperatura ambiente media mensual [C]. Fuente: AEMET, normales 1991-2020
+# (Oviedo, estación de referencia; Tineo a mayor altitud es algo más fresco -> conservador
+# para el derating térmico). El efecto térmico es de 2º orden frente a la POA.
+TAMB_ASTURIAS = [7.6, 8.1, 9.9, 10.9, 13.7, 16.5,
+                 18.5, 18.8, 16.8, 13.6, 10.0, 8.2]
 
 
 @dataclass
@@ -78,11 +86,12 @@ class Ubicacion:
 
 
 def ubicacion_asturias_central() -> Ubicacion:
+    """Tineo (Asturias) con recurso solar real de PVGIS v5.2."""
     return Ubicacion(
-        nombre="Asturias central (PROVISIONAL)",
-        poa_mensual=list(POA_ASTURIAS_PROVISIONAL),
-        tamb_mensual=list(TAMB_ASTURIAS_PROVISIONAL),
-        provisional=True,
+        nombre="Tineo, Asturias (PVGIS v5.2)",
+        poa_mensual=list(POA_TINEO_PVGIS),
+        tamb_mensual=list(TAMB_ASTURIAS),
+        provisional=False,
     )
 
 

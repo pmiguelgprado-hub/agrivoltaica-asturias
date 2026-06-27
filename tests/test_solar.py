@@ -6,13 +6,24 @@ from app.core.solar import (
     ubicacion_asturias_central,
     factor_temperatura,
     k_system,
+    PVGIS_YIELD_REF,
 )
 
 
 def test_yield_asturias_en_rango_plausible():
-    """Yield específico de Asturias debe caer en rango oceánico plausible."""
+    """Yield específico de Asturias (Tineo) debe caer en rango oceánico plausible."""
     r = produccion_fv(1.0)
-    assert 1000 < r.yield_kwh_kwp < 1250, r.yield_kwh_kwp
+    assert 1150 < r.yield_kwh_kwp < 1280, r.yield_kwh_kwp
+
+
+def test_cross_validacion_contra_pvgis():
+    """El modelo físico propio debe coincidir con PVGIS v5.2 dentro de ±5 %.
+
+    Cross-validación contra fuente autoritativa = credibilidad de ingeniería.
+    """
+    r = produccion_fv(1.0)
+    desvio = abs(r.yield_kwh_kwp - PVGIS_YIELD_REF) / PVGIS_YIELD_REF
+    assert desvio < 0.05, f"desvío {desvio:.1%} vs PVGIS"
 
 
 def test_performance_ratio_en_rango():
