@@ -11,7 +11,9 @@ import streamlit as st
 from app.core.solar import MESES, produccion_fv, ubicacion_asturias_central
 from app.core.agrivoltaic import evaluar_por_potencia
 from app.core.economics import evaluar_economia, consumo_granja, KWH_POR_VACA_ANIO
+from app.core.perfil import simular_autoconsumo
 from app.core.confort import thi, clasifica_thi, ASTURIAS_VERANO_T, ASTURIAS_VERANO_RH
+from app.core.informe import DatosInforme, informe_html
 
 st.set_page_config(page_title="Agrivoltaica ganadera asturiana",
                    page_icon="🐄", layout="centered")
@@ -60,7 +62,9 @@ ayuda_pct = st.slider("Ayuda a fondo perdido (%)", 0, 65, 40, step=5,
 
 # ---------------- cálculo ----------------
 ag = evaluar_por_potencia(kwp, gcr, ubic)
-ec = evaluar_economia(kwp, ag.energia_anual_kwh, vacas, ayuda_frac=ayuda_pct / 100)
+sc = simular_autoconsumo(kwp, consumo_granja(vacas), ubic)   # autoconsumo hora a hora
+ec = evaluar_economia(kwp, ag.energia_anual_kwh, vacas, ayuda_frac=ayuda_pct / 100,
+                      fraccion_autoconsumo_override=sc.fraccion_autoconsumo)
 
 # ---------------- 2 · Lo que ganas ----------------
 st.subheader("2 · Lo que ganarías al año")
@@ -71,6 +75,10 @@ c3.metric("Se paga en", f"{ec.payback_con_ayuda_anios:,.1f} años".replace(",", 
 st.caption(f"Sin ninguna ayuda se pagaría en {ec.payback_anios:.1f} años. "
            f"Inversión ≈ {ec.capex_eur:,.0f} € · coste de tu kWh propio (LCOE) "
            f"{ec.lcoe_eur_kwh:.3f} € frente a ~0,18 € de la red.".replace(",", "."))
+st.caption(f"Aprovechas en directo el **{sc.fraccion_autoconsumo*100:.0f}%** de lo que generas "
+           f"(calculado hora a hora). El sol pega al mediodía y el ordeño es al alba y al "
+           f"atardecer, por eso parte se vierte a la red; una batería o mover tareas al "
+           f"mediodía subiría este número.")
 
 # ---------------- 3 · Sin renunciar al pasto ----------------
 st.subheader("3 · Y sigues teniendo pasto")
@@ -98,6 +106,25 @@ df = pd.DataFrame({"Mes": MESES, "kWh": [round(x) for x in prod.energia_mensual_
 st.bar_chart(df, x="Mes", y="kWh", color="#7a9a3b", height=260)
 
 st.divider()
+
+# ---------------- informe imprimible ----------------
+st.subheader("6 · Llévate el informe")
+_datos = DatosInforme(
+    vacas=int(vacas), kwp=float(kwp), gcr=float(gcr), ubicacion=ubic.nombre,
+    energia_anual_kwh=ag.energia_anual_kwh, yield_kwh_kwp=yield_kwp,
+    area_m2=ag.area_terreno_m2, luz_pasto_pct=ag.transmitancia_pasto * 100, ler=ag.ler,
+    consumo_anual_kwh=ec.consumo_anual_kwh, autoconsumo_pct=sc.fraccion_autoconsumo * 100,
+    cobertura_pct=ec.cobertura_demanda * 100, ahorro_anual_eur=ec.ahorro_anual_eur,
+    capex_eur=ec.capex_eur, payback_anios=ec.payback_anios,
+    payback_ayuda_anios=ec.payback_con_ayuda_anios, lcoe_eur_kwh=ec.lcoe_eur_kwh,
+    thi=valor_thi, thi_nivel=clasifica_thi(valor_thi),
+)
+st.download_button("📄 Descargar informe imprimible (HTML)",
+                   data=informe_html(_datos),
+                   file_name=f"informe_agrivoltaica_{int(vacas)}vacas_{int(kwp)}kWp.html",
+                   mime="text/html",
+                   help="Ábrelo en el navegador e imprímelo o guárdalo en PDF.")
+
 st.caption("Fuentes: PVGIS v5.2 (recurso solar Tineo) · consumo 516 kWh/vaca·año (estudio "
            "Castilla y León) · CAPEX FV 800-1.400 €/kWp (mercado ES 2026) · THI NRC 1971. "
-           "Modelo validado contra PVGIS (<1% de desvío). Versión It-2.")
+           "Modelo validado contra PVGIS (<1% de desvío). Versión It-3.")

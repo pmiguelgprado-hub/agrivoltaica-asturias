@@ -36,14 +36,26 @@ Registro vivo del loop autopautado. Cada entrada = un estado commiteado y revisa
 - [x] Escenario 40 vacas: 17 kWp, 231 m² prado, luz 65%, LER 1,35, ahorro 2.160 €/año,
       payback 10,2 (6,1 con ayuda 40%), LCOE 0,084 €/kWh. Honesto y defendible.
 
-### It-3 (siguiente)
-- [ ] Verificación headless real con captura (Playwright/Chrome) + check accesibilidad.
-- [ ] Informe imprimible (memoria base para la beca) desde la propia app.
-- [ ] Refinar autoconsumo con perfil horario de ordeño (sustituir heurística).
-- [ ] Selector de ubicación (varios concejos) o entrada de coordenadas → PVGIS.
+### It-3 hecho
+- [x] **Autoconsumo horario** (`perfil.py`): cruce generación FV (medio-seno por mes) vs
+      carga láctea (2 picos ordeño, base refrigeración) sobre 12 días tipo. Sustituye la
+      heurística. Da **42% autoconsumo** (vs 50% heurístico) = más honesto. Insight real:
+      mismatch sol-mediodía / ordeño-alba-ocaso → argumenta batería o desplazar carga.
+- [x] **Informe imprimible** (`informe.py`): HTML autocontenido con estilo print, formato
+      número español, KPIs, fuentes. Botón de descarga en la app. Verificado por captura.
+- [x] **Verificación headless real** (Playwright + Chrome sistema): desktop ✅ (captura
+      `docs/screenshots/desktop.png`) + informe ✅ (`informe.png`). Accesible: titulares
+      grandes, español llano, honesto.
+- [x] App It-3 + 37 tests verde. Commit.
+- [ ] Móvil: captura salió en blanco (artefacto timing headless en viewport estrecho, no
+      fallo confirmado). PENDIENTE verificación móvil real.
+- [ ] Selector de ubicación (varios concejos)→PVGIS. Diferido (opcional).
 
-### It-4 (gated)
-- [ ] Memoria de proyecto para la beca + README con capturas + push a GitHub (esperar OK Pablo).
+### It-4 (gated — esperar OK Pablo)
+- [ ] Llamar a advisor antes de empezar.
+- [ ] Memoria de proyecto para la beca (draft escribible sin Pablo).
+- [ ] README con capturas.
+- [ ] **Push a GitHub** (GATED, esperar OK explícito de Pablo).
 
 ## Checkpoints para Pablo (revisar cuando vuelva)
 - ¿Idea A correcta? (si no, revertir barato — spec §0).
