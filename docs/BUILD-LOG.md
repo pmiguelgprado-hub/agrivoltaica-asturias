@@ -62,11 +62,23 @@ Registro vivo del loop autopautado. Cada entrada = un estado commiteado y revisa
       ingreso extra", LER como métrica técnica secundaria. App + informe.
 - [x] 37 tests verde. Commit.
 
-### It-4 — HOLD (terminus esperar-a-Pablo; advisor: NO iterar autónomo más)
-- [ ] **GATE 1 — confirmar idea A** (sin confirmar tras 3 iter; no escribir memoria a ciegas).
-- [ ] **GATE 2 — conseguir las BASES reales de la convocatoria** (nunca verificadas, todo de
-      memoria; formato/criterios/entregable desconocidos). Probablemente necesita a Pablo.
-- [ ] Solo entonces: memoria de beca + README con capturas + push GitHub (GATED).
+### It-4 — bases verificadas + entregable redactado (2026-06-28)
+- [x] **GATE 1 resuelto:** Pablo confirma idea A.
+- [x] **GATE 2 resuelto:** bases reales obtenidas (PDF oficial vía pdftotext). RECALIBRACIÓN:
+      es **Beca Excelencia** (no "convocatoria de proyecto"). Modalidad C máster = 12×6.000 €,
+      **80% expediente + 5% vídeo + 15% idea de proyecto** (texto ≤3.000 palabras). Marco
+      obligatorio = despoblación rural / **modernización sector primario + tecnología +
+      jóvenes** (encaje pleno). Plazo 31-jul-2026. Doc: `docs/2026-06-28-convocatoria-bases.md`.
+- [x] **Entregable real redactado:** `docs/2026-06-28-idea-proyecto-impacto.md` — idea de
+      proyecto a los 5 puntos de Anexo 2 (1.105/3.000 palabras), con números de la calculadora
+      como respaldo. La calculadora = soporte de credibilidad, NO el entregable.
+
+### Pendiente (de Pablo, no autónomo)
+- [ ] **GATE elegibilidad (duro):** residencia Asturias + matrícula ≥60 cr + **cuenta+ruralvia+
+      débito Caja Rural antes del cierre** (o Fyin). Sin esto no se puede ni solicitar.
+- [ ] Vídeo de motivación (máx 2 min, 5%).
+- [ ] Revisar/ajustar el pitch + rellenar formulario telemático FCRA.
+- [ ] Opcional: README con capturas + push GitHub (GATED, esperar OK Pablo).
 
 ## Checkpoints para Pablo (revisar cuando vuelva)
 - ¿Idea A correcta? (si no, revertir barato — spec §0).
