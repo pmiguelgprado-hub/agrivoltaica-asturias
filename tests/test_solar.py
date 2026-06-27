@@ -4,10 +4,31 @@ import pytest
 from app.core.solar import (
     produccion_fv,
     ubicacion_asturias_central,
+    ubicacion,
+    concejos,
     factor_temperatura,
     k_system,
     PVGIS_YIELD_REF,
+    PVGIS_YIELD_REF_CONCEJOS,
 )
+
+
+def test_todos_los_concejos_coherentes_con_pvgis():
+    """Cada concejo debe quedar dentro de ±3 % del yield de PVGIS."""
+    for c in concejos():
+        r = produccion_fv(1.0, ubicacion(c))
+        ref = PVGIS_YIELD_REF_CONCEJOS[c]
+        assert abs(r.yield_kwh_kwp - ref) / ref < 0.03, (c, r.yield_kwh_kwp, ref)
+
+
+def test_concejo_desconocido_falla():
+    import pytest
+    with pytest.raises(ValueError):
+        ubicacion("Madrid")
+
+
+def test_hay_varios_concejos():
+    assert len(concejos()) >= 5 and "Tineo" in concejos()
 
 
 def test_yield_asturias_en_rango_plausible():

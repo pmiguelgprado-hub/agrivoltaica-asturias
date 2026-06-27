@@ -8,7 +8,7 @@ from __future__ import annotations
 import pandas as pd
 import streamlit as st
 
-from app.core.solar import MESES, produccion_fv, ubicacion_asturias_central
+from app.core.solar import MESES, produccion_fv, ubicacion, concejos
 from app.core.agrivoltaic import evaluar_por_potencia
 from app.core.economics import evaluar_economia, consumo_granja, KWH_POR_VACA_ANIO
 from app.core.perfil import simular_autoconsumo
@@ -33,14 +33,16 @@ st.markdown(
 st.markdown('<div class="titular">🐄☀️ Sol y pasto en la misma finca</div>',
             unsafe_allow_html=True)
 st.markdown('<div class="sub">Calculadora de agrivoltaica ganadera para la Asturias rural · '
-            'datos solares reales de Tineo (PVGIS)</div>', unsafe_allow_html=True)
+            'datos solares reales de PVGIS por concejo</div>', unsafe_allow_html=True)
 st.divider()
-
-ubic = ubicacion_asturias_central()
-yield_kwp = produccion_fv(1.0, ubic).yield_kwh_kwp   # kWh por kWp y año
 
 # ---------------- 1 · Tu granja ----------------
 st.subheader("1 · Cuéntanos de tu granja")
+concejo = st.selectbox("¿En qué concejo está tu finca?", concejos(), index=0,
+                       help="Datos solares reales de PVGIS para cada concejo.")
+ubic = ubicacion(concejo)
+yield_kwp = produccion_fv(1.0, ubic).yield_kwh_kwp   # kWh por kWp y año
+
 col_a, col_b = st.columns(2)
 with col_a:
     vacas = st.slider("Número de vacas", 5, 200, 40, step=5,

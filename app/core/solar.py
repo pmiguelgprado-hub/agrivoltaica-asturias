@@ -52,18 +52,27 @@ def k_system() -> float:
     return k
 
 
-# --- Recurso solar REAL Asturias (Tineo, concejo ganadero SO) ---
-# Fuente: PVGIS v5.2 (JRC, base SARAH3), lat 43,34 / lon -6,41, plano fijo óptimo
-# (slope 37 deg, azimut sur). H(i)_m = irradiación mensual en plano [kWh/m2].
-# Verificado 2026-06-27 vía API PVcalc. Sustituye los datos PROVISIONALES de It-1.
-POA_TINEO_PVGIS = [80.5, 96.8, 132.7, 142.0, 154.3, 149.5,
-                   167.1, 172.5, 151.2, 125.4, 83.4, 83.9]   # 1539,3 kWh/m2/año
-# Energía PVGIS para 1 kWp con 14 % de pérdidas de sistema (referencia de validación).
-PVGIS_YIELD_REF = 1219.5  # kWh/kWp/año
+# --- Recurso solar REAL de concejos ganaderos de Asturias ---
+# Fuente: PVGIS v5.2 (JRC), plano fijo a inclinación óptima, azimut sur. H(i)_m =
+# irradiación mensual en plano [kWh/m2]. Verificado 2026-06-27/28 vía API PVcalc.
+# Nota: Somiedo, en valle de montaña, tiene un horizonte que recorta el invierno (PVGIS
+# lo modela) -> menor yield; es una variación real del territorio, no un error.
+POA_CONCEJOS = {
+    "Tineo":             [80.5, 96.8, 132.7, 142.0, 154.3, 149.5, 167.1, 172.5, 151.2, 125.4, 83.4, 83.9],
+    "Cangas del Narcea": [75.0, 91.1, 131.2, 144.7, 162.1, 161.7, 183.6, 187.3, 156.1, 124.4, 76.9, 72.2],
+    "Somiedo":           [22.0, 47.2, 99.6, 135.2, 165.9, 176.9, 206.9, 196.5, 153.9, 95.4, 24.4, 20.7],
+    "Teverga":           [63.2, 80.3, 121.2, 136.6, 152.0, 151.6, 171.1, 172.1, 150.6, 117.8, 70.7, 69.3],
+    "Grado":             [84.3, 100.2, 133.1, 133.2, 140.8, 132.6, 144.8, 151.6, 142.7, 121.9, 86.2, 86.2],
+}
+# Inclinación óptima por concejo (PVGIS) y yield de referencia PVGIS (1 kWp, 14 % pérdidas).
+SLOPE_CONCEJOS = {"Tineo": 37, "Cangas del Narcea": 35, "Somiedo": 25, "Teverga": 34, "Grado": 38}
+PVGIS_YIELD_REF_CONCEJOS = {"Tineo": 1219.5, "Cangas del Narcea": 1243.4, "Somiedo": 1054.8,
+                            "Teverga": 1159.5, "Grado": 1156.9}
+PVGIS_YIELD_REF = PVGIS_YIELD_REF_CONCEJOS["Tineo"]  # compat con tests existentes
 
-# Temperatura ambiente media mensual [C]. Fuente: AEMET, normales 1991-2020
-# (Oviedo, estación de referencia; Tineo a mayor altitud es algo más fresco -> conservador
-# para el derating térmico). El efecto térmico es de 2º orden frente a la POA.
+# Temperatura ambiente media mensual [C]. Fuente: AEMET, normales 1991-2020 (Oviedo, estación
+# de referencia; los concejos de montaña son algo más frescos -> conservador para el derating
+# térmico). Efecto de 2º orden frente a la POA; se usa la misma serie para todos los concejos.
 TAMB_ASTURIAS = [7.6, 8.1, 9.9, 10.9, 13.7, 16.5,
                  18.5, 18.8, 16.8, 13.6, 10.0, 8.2]
 
@@ -85,14 +94,26 @@ class Ubicacion:
         return sum(self.poa_mensual)
 
 
-def ubicacion_asturias_central() -> Ubicacion:
-    """Tineo (Asturias) con recurso solar real de PVGIS v5.2."""
+def ubicacion(nombre: str = "Tineo") -> Ubicacion:
+    """Concejo asturiano con recurso solar real de PVGIS v5.2."""
+    if nombre not in POA_CONCEJOS:
+        raise ValueError(f"concejo desconocido: {nombre}. Opciones: {list(POA_CONCEJOS)}")
     return Ubicacion(
-        nombre="Tineo, Asturias (PVGIS v5.2)",
-        poa_mensual=list(POA_TINEO_PVGIS),
+        nombre=f"{nombre}, Asturias (PVGIS v5.2)",
+        poa_mensual=list(POA_CONCEJOS[nombre]),
         tamb_mensual=list(TAMB_ASTURIAS),
         provisional=False,
     )
+
+
+def concejos() -> list[str]:
+    """Lista de concejos disponibles."""
+    return list(POA_CONCEJOS)
+
+
+def ubicacion_asturias_central() -> Ubicacion:
+    """Compat: Tineo por defecto."""
+    return ubicacion("Tineo")
 
 
 @dataclass
