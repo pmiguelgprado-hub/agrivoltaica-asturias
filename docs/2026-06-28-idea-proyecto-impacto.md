@@ -20,18 +20,19 @@ related: [2026-06-28-convocatoria-bases.md, PROJECT.md]
 
 ## 1. La idea y su propuesta de valor
 
-Las explotaciones de vacuno sostienen la economía de los concejos del interior y el
-suroccidente de Asturias, como Tineo, Somiedo, Teverga o Cangas del Narcea. Son también los
-concejos que más población y relevo generacional pierden. El joven que se plantea quedarse al
-frente de la granja familiar arrastra dos costes que no controla: la factura eléctrica del
-ordeño, la refrigeración de la leche y la limpieza, y unos ingresos atados al precio que le
-pague la industria por esa leche.
+En los concejos del interior y el suroccidente de Asturias, las granjas de vacuno son el
+motor económico de pueblos como Tineo, Somiedo, Teverga o Cangas del Narcea. Y son justo esos
+pueblos los que más gente joven están perdiendo. Piensa en quien hereda la granja familiar y
+duda si quedarse: se enfrenta a dos gastos que no puede tocar. Por un lado la factura de la
+luz, que en una explotación lechera no es pequeña entre el ordeño, el tanque de frío y la
+limpieza. Por otro, unos ingresos que dependen de lo que la industria decida pagarle por la
+leche.
 
-Mi propuesta parte de una idea sencilla: aprovechar el propio prado para producir
-electricidad sin dejar de pastar. Se hace con un sistema agrivoltaico, placas fotovoltaicas
-elevadas varios metros sobre una esquina de la finca, de modo que el ganado siga pastando y
-se resguarde debajo. La granja consume su propia energía, baja la factura y diversifica los
-ingresos, todo sin sacar el suelo de la actividad agraria.
+La idea que propongo se cuenta en una frase: aprovechar el propio prado para generar
+electricidad sin dejar de pastar. Se consigue con un sistema agrivoltaico, unas placas
+elevadas varios metros sobre una esquina de la finca, de modo que el ganado siga paciendo y se
+resguarde debajo. La granja consume su propia energía, baja la factura y suma una fuente de
+ingresos, y el suelo no sale de la actividad agraria.
 
 La idea no se queda ahí. Su núcleo es una herramienta de cálculo que he construido y que
 quiere ser fácil de usar, tanto para un ganadero mayor como para un joven recién incorporado.
@@ -119,12 +120,13 @@ extiende, por tanto, al resto del territorio.
 
 ## Viabilidad y compromiso
 
-La viabilidad técnica ya está demostrada con la herramienta construida y contrastada con datos
-oficiales. La económica depende de cada granja y de las ayudas de cada momento, y el proyecto
-no lo esconde: pone esa cuenta en manos del ganadero para que decida con criterio. Si la beca
-sale adelante, me comprometo a desarrollar los pilotos, afinar la herramienta con datos reales
-de explotaciones asturianas y presentar los resultados con el resto de becados antes de cerrar
-2026.
+La parte técnica ya está demostrada: la herramienta está construida y contrastada con datos
+oficiales. La parte económica depende de cada granja y de las ayudas de cada momento, y eso no
+lo escondo, lo pongo encima de la mesa para que sea el ganadero quien decida con criterio. Lo
+que me mueve es sencillo: que quedarse en el pueblo y seguir con la granja sea una opción que
+salga a cuenta. Si la beca sale adelante, me comprometo a llevar los pilotos a granjas reales
+asturianas, afinar la herramienta con sus datos y presentar los resultados junto al resto de
+becados antes de cerrar 2026.
 
 ---
 *Respaldo técnico (no forma parte del texto de la beca): repositorio del proyecto con la

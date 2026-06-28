@@ -91,15 +91,23 @@ Registro vivo del loop autopautado. Cada entrada = un estado commiteado y revisa
 Acabado cuando cada cifra del texto ≤3.000 palabras esté (a) producida por la herramienta y
 (b) citada o marcada como asunción. ✅ cumplido. Más gráficos = rendimientos decrecientes.
 
+### It-6 — pulido de entregables (a petición de Pablo)
+- [x] **Pitch humanizado + más cercano**: pasada anti-IA (paralelismos negativos rotos,
+      0 guiones largos, menos negrita, reglas de tres deshechas) + voz de autor en 1ª persona
+      + tono más cercano en intro y cierre. 1.335/3.000 palabras. Commits `b70befa` + (este).
+- [x] **Guion del vídeo de motivación** (`docs/2026-06-28-guion-video.md`): plantilla a la
+      estructura del Anexo 2 (presentación, criterios máster, valor para él y su entorno,
+      planes, CV no académico), con tiempos, versión seguida y notas de grabación. Huecos
+      `[PABLO: ...]` para datos personales reales (NO inventados).
+
 ### Pendiente (de Pablo, no autónomo)
-- [ ] **VERIFICAR cómo llega al jurado**: ¿el formulario FCRA admite adjunto/enlace? Si solo
-      es texto+vídeo, la app sirve para (a) dar a Pablo cifras defendibles y (b) capturas para
-      el vídeo. Pablo confirma.
-- [ ] **GATE elegibilidad (duro):** residencia Asturias + matrícula ≥60 cr + **cuenta+ruralvia+
-      débito Caja Rural antes del cierre** (o Fyin).
-- [ ] Vídeo de motivación (máx 2 min, 5%) — guion opcional.
-- [ ] Revisar/ajustar el pitch + rellenar formulario telemático FCRA.
-- [ ] Opcional: README con capturas + push GitHub (GATED, esperar OK Pablo).
+- [ ] Rellenar los huecos `[PABLO: ...]` del guion con datos reales + grabar (≤2 min).
+- [ ] Leer/validar el pitch (¿voz OK?).
+- [ ] **VERIFICAR si el formulario FCRA admite adjunto/enlace** (decide si el jurado ve la app).
+- [ ] **GATE elegibilidad (duro):** residencia Asturias + matrícula ≥60 cr + cuenta/ruralvia/
+      débito Caja Rural antes del cierre (o Fyin).
+- [ ] Rellenar el formulario telemático FCRA.
+- [ ] Opcional: push GitHub (GATED, esperar OK Pablo).
 
 ## Checkpoints para Pablo (revisar cuando vuelva)
 - ¿Idea A correcta? (si no, revertir barato — spec §0).
