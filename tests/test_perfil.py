@@ -5,10 +5,20 @@ from app.core.perfil import (
     perfil_carga_diaria,
     generacion_horaria_dia,
     simular_autoconsumo,
+    matriz_generacion_horaria,
     PESOS_CARGA_LACTEA,
     HORAS_LUZ_MES,
     DIAS_MES,
 )
+
+
+def test_matriz_generacion_forma_y_pico_mediodia():
+    M = matriz_generacion_horaria(17)
+    assert len(M) == 12 and all(len(fila) == 24 for fila in M)
+    # En julio (mes 6, índice) el máximo horario debe caer cerca del mediodía (11-15 h).
+    julio = M[6]
+    hora_pico = max(range(24), key=lambda h: julio[h])
+    assert 11 <= hora_pico <= 15, hora_pico
 
 
 def test_carga_diaria_conserva_total():

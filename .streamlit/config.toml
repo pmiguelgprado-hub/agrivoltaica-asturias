@@ -1,0 +1,10 @@
+[theme]
+# Paleta rural cálida: verde pradera + tierra clara, alto contraste para accesibilidad.
+primaryColor = "#5f7d2e"
+backgroundColor = "#faf8f1"
+secondaryBackgroundColor = "#eef0e2"
+textColor = "#2b2b22"
+font = "sans serif"
+
+[server]
+headless = true

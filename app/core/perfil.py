@@ -58,6 +58,23 @@ def generacion_horaria_dia(energia_mes_kwh: float, dias_mes: int,
     return [e_dia * f / s for f in forma]
 
 
+def matriz_generacion_horaria(kwp: float, ubic: Ubicacion | None = None) -> list[list[float]]:
+    """Matriz 12x24 (mes x hora) de generación de un día medio del mes [kWh/h].
+
+    Es la 'firma solar' de la instalación: visualiza cuándo se produce la energía.
+
+    >>> M = matriz_generacion_horaria(17)
+    >>> len(M) == 12 and len(M[0]) == 24
+    True
+    """
+    if kwp <= 0:
+        raise ValueError("kwp debe ser > 0")
+    ubic = ubic or ubicacion_asturias_central()
+    prod = produccion_fv(kwp, ubic)
+    return [generacion_horaria_dia(prod.energia_mensual_kwh[m], DIAS_MES[m], HORAS_LUZ_MES[m])
+            for m in range(12)]
+
+
 @dataclass
 class ResultadoAutoconsumo:
     fraccion_autoconsumo: float     # autoconsumida / generada

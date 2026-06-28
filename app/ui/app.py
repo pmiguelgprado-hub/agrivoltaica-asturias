@@ -5,13 +5,13 @@ Núcleo: solar (PVGIS) + agrivoltaico (luz al pasto) + economía (ahorro/payback
 """
 from __future__ import annotations
 
-import pandas as pd
+import plotly.graph_objects as go
 import streamlit as st
 
 from app.core.solar import MESES, produccion_fv, ubicacion, concejos
 from app.core.agrivoltaic import evaluar_por_potencia
 from app.core.economics import evaluar_economia, consumo_granja, KWH_POR_VACA_ANIO
-from app.core.perfil import simular_autoconsumo
+from app.core.perfil import simular_autoconsumo, matriz_generacion_horaria
 from app.core.confort import thi, clasifica_thi, ASTURIAS_VERANO_T, ASTURIAS_VERANO_RH
 from app.core.informe import DatosInforme, informe_html
 
@@ -113,8 +113,26 @@ st.info(f"En Asturias el clima es fresco y húmedo: en un día caluroso de veran
 # ---------------- reparto mensual ----------------
 st.subheader("5 · Energía mes a mes")
 prod = produccion_fv(kwp, ubic)
-df = pd.DataFrame({"Mes": MESES, "kWh": [round(x) for x in prod.energia_mensual_kwh]})
-st.bar_chart(df, x="Mes", y="kWh", color="#7a9a3b", height=260)
+barras = go.Figure(go.Bar(x=MESES, y=[round(x) for x in prod.energia_mensual_kwh],
+                          marker_color="#5f7d2e",
+                          hovertemplate="%{x}<br>%{y} kWh<extra></extra>"))
+barras.update_layout(height=260, margin=dict(l=0, r=0, t=10, b=0), font=dict(size=14),
+                     yaxis_title="kWh", xaxis=dict(categoryorder="array", categoryarray=MESES),
+                     paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
+st.plotly_chart(barras, use_container_width=True)
+
+st.markdown("**Tu firma solar** — cuándo se produce la energía (hora del día × mes)")
+M = matriz_generacion_horaria(kwp, ubic)
+heat = go.Figure(go.Heatmap(
+    z=M, x=[f"{h}h" for h in range(24)], y=MESES,
+    colorscale="YlOrRd", colorbar=dict(title="kWh"),
+    hovertemplate="%{y} · %{x}<br>%{z:.1f} kWh<extra></extra>"))
+heat.update_layout(height=320, margin=dict(l=0, r=0, t=10, b=0),
+                   yaxis=dict(autorange="reversed"), font=dict(size=14),
+                   paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
+st.plotly_chart(heat, use_container_width=True)
+st.caption("La banda intensa del mediodía estival es donde más produces; ahí está el desfase "
+           "con el ordeño de mañana y tarde.")
 
 st.divider()
 
