@@ -73,10 +73,31 @@ Registro vivo del loop autopautado. Cada entrada = un estado commiteado y revisa
       proyecto a los 5 puntos de Anexo 2 (1.105/3.000 palabras), con números de la calculadora
       como respaldo. La calculadora = soporte de credibilidad, NO el entregable.
 
+### It-5 — perfeccionar el RESPALDO (Pablo: "que funcione e impresione")
+- [x] **It-5a multi-concejo**: 5 concejos ganaderos con PVGIS real (Tineo, Cangas, Somiedo,
+      Teverga, Grado), coherentes con PVGIS <3%. Selector en la app.
+- [x] **It-5b pulido visual**: tema rural cálido + **heatmap hora×mes "firma solar"** (Plotly)
+      + barras mensuales en orden cronológico (st.bar_chart las ordenaba alfabético).
+- [x] **It-5c módulo de impacto** (`impacto.py`): escala 1 granja → concejo con disciplina de
+      honestidad (advisor): **retención/relevo, NO empleo creado**; denominador real (Tineo
+      ~374 granjas leche, dato oficial); CO₂ con factor red ES 0,258 kg/kWh (MITECO 2025).
+      Escenario 10% Tineo = **780 MWh/año, 201 t CO₂/año, 70.935 €/año** en el concejo.
+      Sección en la app (hero figure para el vídeo) + bloque en el informe imprimible.
+- [x] **Reconciliado pitch ↔ herramienta**: §5 del entregable reescrito con impacto agregado
+      (retención no empleo) + replicabilidad con números reales por concejo. Cifras §1/§3
+      verificadas contra la salida actual. 47 tests verde.
+
+### Definición de DONE del respaldo (advisor)
+Acabado cuando cada cifra del texto ≤3.000 palabras esté (a) producida por la herramienta y
+(b) citada o marcada como asunción. ✅ cumplido. Más gráficos = rendimientos decrecientes.
+
 ### Pendiente (de Pablo, no autónomo)
+- [ ] **VERIFICAR cómo llega al jurado**: ¿el formulario FCRA admite adjunto/enlace? Si solo
+      es texto+vídeo, la app sirve para (a) dar a Pablo cifras defendibles y (b) capturas para
+      el vídeo. Pablo confirma.
 - [ ] **GATE elegibilidad (duro):** residencia Asturias + matrícula ≥60 cr + **cuenta+ruralvia+
-      débito Caja Rural antes del cierre** (o Fyin). Sin esto no se puede ni solicitar.
-- [ ] Vídeo de motivación (máx 2 min, 5%).
+      débito Caja Rural antes del cierre** (o Fyin).
+- [ ] Vídeo de motivación (máx 2 min, 5%) — guion opcional.
 - [ ] Revisar/ajustar el pitch + rellenar formulario telemático FCRA.
 - [ ] Opcional: README con capturas + push GitHub (GATED, esperar OK Pablo).
 

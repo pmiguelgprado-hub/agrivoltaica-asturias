@@ -32,3 +32,20 @@ def test_informe_html_valido_y_con_cifras():
 def test_informe_imprimible_tiene_estilo_print():
     html = informe_html(_datos())
     assert "@media print" in html
+
+
+def test_bloque_impacto_solo_si_hay_datos():
+    # Sin datos de impacto: no aparece el bloque.
+    sin = informe_html(_datos())
+    assert "Y si el concejo se suma" not in sin
+    # Con datos: aparece con cifras.
+    d = _datos()
+    d.impacto_granjas = 37
+    d.impacto_mwh = 780
+    d.impacto_co2_t = 201
+    d.impacto_ahorro_eur = 70935
+    d.impacto_concejo = "Tineo"
+    con = informe_html(d)
+    assert "Y si el concejo se suma" in con
+    assert "780 MWh" in con
+    assert "70.935" in con

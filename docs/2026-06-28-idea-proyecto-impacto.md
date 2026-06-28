@@ -96,16 +96,29 @@ sombra contra el calor.
 
 ## 5. Impacto social generado
 
-- **Fijar población joven al medio rural.** Mejorar la rentabilidad y reducir la factura de la
-  granja hace más viable el relevo generacional: la condición para que un joven se quede al
-  frente de la explotación.
+- **Relevo generacional, no empleo de la nada.** La agrivoltaica sobre una granja existente
+  no crea puestos de trabajo; mejora el margen y reduce la factura, y con ello hace **viable
+  que un joven se quede al frente de la explotación**. En un territorio que envejece, retener
+  al relevo es el impacto que importa.
 - **Modernizar el sector primario.** Lleva tecnología energética útil y comprensible a
   explotaciones que hoy no tienen acceso a un análisis hecho a su medida.
 - **Diversificar la renta agraria** y reducir su exposición al precio de la leche y de la
   electricidad, dando estabilidad a las familias ganaderas.
-- **Energía limpia de proximidad** generada y consumida en el propio concejo.
-- **Replicabilidad.** El mismo método y la misma herramienta sirven para cualquier concejo en
-  reto demográfico; el piloto en Tineo es extensible a Somiedo, Teverga o Cangas del Narcea.
+
+**El efecto, a escala de concejo.** Tineo tiene del orden de 370 explotaciones de leche (es
+el primer concejo ganadero de Asturias). Como escenario ilustrativo, si solo **una de cada
+diez** adoptara el sistema —unas 37 granjas—, el conjunto generaría unos **780 MWh de energía
+limpia al año**, evitaría alrededor de **200 toneladas de CO₂ anuales** (factor de la red
+eléctrica española, 0,258 kgCO₂/kWh, MITECO 2025) y dejaría cerca de **70.000 € al año** de
+ahorro en la economía del concejo, en lugar de salir hacia la factura eléctrica. Son cifras
+de un supuesto de adopción explícito, no una promesa.
+
+**Replicabilidad real.** La herramienta ya incorpora datos solares de PVGIS para varios
+concejos en reto demográfico, con resultados propios de cada uno (para la misma granja de 40
+vacas y 17 kWp): Tineo y Cangas del Narcea ~1.900 €/año de ahorro y ~8,5 años de amortización
+con ayuda; Teverga y Grado ~1.815 €/año y ~9 años; Somiedo, con menos sol de invierno por su
+horizonte de montaña, ~1.670 €/año y ~10 años. El piloto en Tineo es, por tanto, extensible y
+no un caso aislado.
 
 ## Viabilidad y compromiso
 

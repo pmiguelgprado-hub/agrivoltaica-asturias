@@ -34,12 +34,30 @@ class DatosInforme:
     # confort
     thi: float
     thi_nivel: str
+    # impacto de concejo (opcional)
+    impacto_granjas: int = 0
+    impacto_mwh: float = 0.0
+    impacto_co2_t: float = 0.0
+    impacto_ahorro_eur: float = 0.0
+    impacto_concejo: str = ""
 
 
 def _es(n: float, dec: int = 0) -> str:
     """Formato número español (miles con punto, decimales con coma)."""
     s = f"{n:,.{dec}f}"
     return s.replace(",", "X").replace(".", ",").replace("X", ".")
+
+
+def _bloque_impacto(d: DatosInforme) -> str:
+    """Bloque opcional de impacto en el concejo (solo si hay datos)."""
+    if d.impacto_granjas <= 0:
+        return ""
+    return f"""<h2>Y si el concejo se suma</h2>
+<p>Si unas {_es(d.impacto_granjas)} explotaciones de leche de {d.impacto_concejo} adoptaran
+ el sistema, en conjunto generarían <b>{_es(d.impacto_mwh)} MWh</b> de energía limpia al año,
+ evitarían unas <b>{_es(d.impacto_co2_t)} t de CO₂</b> anuales y dejarían cerca de
+ <b>{_es(d.impacto_ahorro_eur)} €</b> al año en la economía del concejo. Es un escenario de
+ adopción, no una promesa.</p>"""
 
 
 def informe_html(d: DatosInforme) -> str:
@@ -88,8 +106,9 @@ def informe_html(d: DatosInforme) -> str:
  (estrés {d.thi_nivel}, no severo). El beneficio principal de la placa elevada aquí es
  el <b>refugio</b> de lluvia y viento, no la sombra contra el calor.</p>
 
+{_bloque_impacto(d)}
 <p class="src">Fuentes: recurso solar de PVGIS v5.2 · consumo 516 kWh/vaca·año (estudio
- Castilla y León) · CAPEX FV 800-1.400 €/kWp (mercado ES 2026) · THI NRC 1971.
- Modelo de pérdidas coherente con PVGIS. El sobrecoste de la estructura elevada es una
- asunción ajustable, no un dato.</p>
+ Castilla y León) · CAPEX FV 800-1.400 €/kWp (mercado ES 2026) · THI NRC 1971 · factor de
+ CO₂ de la red española 0,258 kg/kWh (MITECO 2025). Modelo de pérdidas coherente con PVGIS.
+ El sobrecoste de la estructura elevada es una asunción ajustable, no un dato.</p>
 </body></html>"""

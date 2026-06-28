@@ -14,6 +14,7 @@ from app.core.economics import evaluar_economia, consumo_granja, KWH_POR_VACA_AN
 from app.core.perfil import simular_autoconsumo, matriz_generacion_horaria
 from app.core.confort import thi, clasifica_thi, ASTURIAS_VERANO_T, ASTURIAS_VERANO_RH
 from app.core.informe import DatosInforme, informe_html
+from app.core.impacto import impacto_agregado, GRANJAS_LECHE_CONCEJO
 
 st.set_page_config(page_title="Agrivoltaica ganadera asturiana",
                    page_icon="🐄", layout="centered")
@@ -136,8 +137,26 @@ st.caption("La banda intensa del mediodía estival es donde más produces; ahí 
 
 st.divider()
 
+# ---------------- 6 · impacto en el concejo ----------------
+if concejo in GRANJAS_LECHE_CONCEJO:
+    n_granjas = GRANJAS_LECHE_CONCEJO[concejo]
+    st.subheader("6 · Y si el concejo se suma")
+    adopcion = st.slider("¿Qué % de las granjas del concejo lo adoptan?", 5, 100, 10, step=5,
+                         help=f"{concejo} tiene del orden de {n_granjas} explotaciones de leche.")
+    st.caption(f"Es decir, unas **{round(n_granjas*adopcion/100)}** de las ~{n_granjas} "
+               f"explotaciones de leche de {concejo}.")
+    imp = impacto_agregado(ag.energia_anual_kwh, ec.ahorro_anual_eur, n_granjas, adopcion / 100)
+    e1, e2, e3 = st.columns(3)
+    e1.metric("Energía limpia", f"{imp.energia_limpia_anual_kwh/1000:,.0f} MWh/año".replace(",", "."))
+    e2.metric("CO₂ evitado", f"{imp.co2_evitado_t_anio:,.0f} t/año".replace(",", "."))
+    e3.metric("Se queda en el concejo", f"{imp.ahorro_agregado_eur_anio:,.0f} €/año".replace(",", "."))
+    st.caption(f"Escenario: {imp.granjas_adoptan:.0f} de las ~{n_granjas} granjas de leche de "
+               f"{concejo}. CO₂ con el factor de la red española (0,258 kg/kWh, MITECO 2025). "
+               f"Son cifras de un supuesto de adopción, no una promesa.")
+    st.divider()
+
 # ---------------- informe imprimible ----------------
-st.subheader("6 · Llévate el informe")
+st.subheader("7 · Llévate el informe")
 _datos = DatosInforme(
     vacas=int(vacas), kwp=float(kwp), gcr=float(gcr), ubicacion=ubic.nombre,
     energia_anual_kwh=ag.energia_anual_kwh, yield_kwh_kwp=yield_kwp,
@@ -147,6 +166,11 @@ _datos = DatosInforme(
     capex_eur=ec.capex_eur, payback_anios=ec.payback_anios,
     payback_ayuda_anios=ec.payback_con_ayuda_anios, lcoe_eur_kwh=ec.lcoe_eur_kwh,
     thi=valor_thi, thi_nivel=clasifica_thi(valor_thi),
+    impacto_granjas=int(imp.granjas_adoptan) if concejo in GRANJAS_LECHE_CONCEJO else 0,
+    impacto_mwh=(imp.energia_limpia_anual_kwh / 1000) if concejo in GRANJAS_LECHE_CONCEJO else 0,
+    impacto_co2_t=imp.co2_evitado_t_anio if concejo in GRANJAS_LECHE_CONCEJO else 0,
+    impacto_ahorro_eur=imp.ahorro_agregado_eur_anio if concejo in GRANJAS_LECHE_CONCEJO else 0,
+    impacto_concejo=concejo,
 )
 st.download_button("📄 Descargar informe imprimible (HTML)",
                    data=informe_html(_datos),
