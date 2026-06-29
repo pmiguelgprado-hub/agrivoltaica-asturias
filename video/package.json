@@ -1,0 +1,26 @@
+{
+  "name": "agrivoltaica-beca-video",
+  "version": "1.0.0",
+  "description": "Vídeo animado de 2 min para la beca FCRA 2026 (Remotion)",
+  "private": true,
+  "scripts": {
+    "studio": "remotion studio",
+    "render": "remotion render src/index.ts BecaVideo out/beca-video.mp4",
+    "render:estructura": "remotion render src/index.ts Estructura out/estructura-proyecto.mp4",
+    "render:sample": "remotion render src/index.ts Sample out/sample.mp4",
+    "upgrade": "remotion upgrade"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.0",
+    "@remotion/fonts": "^4.0.0",
+    "@remotion/google-fonts": "^4.0.484",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "remotion": "^4.0.0",
+    "roughjs": "^4.6.6"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "typescript": "^5.4.0"
+  }
+}
