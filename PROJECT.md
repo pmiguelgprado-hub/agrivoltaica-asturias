@@ -30,9 +30,9 @@ ingeniería + economía, no en norma pendiente.
 
 | | |
 |---|---|
-| Fase | It-1 — spec aprobada (supuesto A) + scaffold + slice en construcción |
-| Hecho | Research inicial (casos ganado-PV, elegibilidad PAC ES, calculadoras ref); spec de diseño |
-| Siguiente | Núcleo solar testeable → modelo agrivoltaico → UI accesible → memoria beca |
+| Fase | Respaldo COMPLETO — calculadora + entregables de la beca listos |
+| Hecho | Calculadora completa (núcleo solar PVGIS, modelo agrivoltaico, autoconsumo horario, economía, impacto de concejo, informe imprimible), **47 tests verde**; idea de proyecto redactada (≤3.000 palabras); guion del vídeo (2 min); bases oficiales verificadas; **vídeo animado en Remotion** (`video/`) |
+| Siguiente (Pablo) | Grabar clip cara-a-cámara → `video/public/pablo.mp4` + render final; confirmar si el formulario admite adjunto/enlace; gate elegibilidad (residencia + matrícula + cuenta Caja Rural); rellenar formulario |
 | Dinero/despliegue | N/A (proyecto de estudiante, multi-sesión, loop autopautado) |
 
 ## Decisiones clave (2026-06-27)
@@ -47,3 +47,12 @@ ingeniería + economía, no en norma pendiente.
 
 - Spec de diseño (iter-1): `docs/2026-06-27-design-spec.md`
 - Build-log / estado vivo: `docs/BUILD-LOG.md`
+- **Entregable beca** (idea de proyecto, ≤3.000 palabras): `docs/2026-06-28-idea-proyecto-impacto.md`
+- Guion del vídeo (2 min, Anexo 2): `docs/2026-06-28-guion-video.md`
+- Bases oficiales de la convocatoria: `docs/2026-06-28-convocatoria-bases.md`
+
+## Vídeo animado
+
+`video/` — proyecto Remotion que genera el vídeo de 2 min (cabeza parlante + overlays
+animados estilo Nate Herk; la app protagoniza el cierre). Ver `video/README.md`.
+Pablo graba su clip → `video/public/pablo.mp4`, pone `hasFootage: true` y `npm run render`.

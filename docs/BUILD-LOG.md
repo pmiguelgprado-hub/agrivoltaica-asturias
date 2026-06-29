@@ -109,6 +109,141 @@ Acabado cuando cada cifra del texto ≤3.000 palabras esté (a) producida por la
 - [ ] Rellenar el formulario telemático FCRA.
 - [ ] Opcional: push GitHub (GATED, esperar OK Pablo).
 
+## 2026-06-28 · Vídeo animado (Remotion) + limpieza de proyectos
+
+- [x] **Vídeo de 2 min animado estilo Nate Herk** en `video/` (Remotion + ffmpeg, node ya
+      instalado). Composición `BecaVideo` (120 s, 1920×1080, 30 fps): cabeza parlante +
+      overlays (chips de sección, titulares, palabras-clave con *pop* escalonado, **mapa
+      mental** Máster→Energía/Sistemas/Inversiones/Territorio, rótulo, barra de progreso) +
+      **cierre con la app** (capturas con zoom Ken Burns). Estilo **Equilibrado** (Pablo lo
+      eligió): los overlays ilustran SU historia; el proyecto protagoniza solo el final
+      (respeta el baremo personal del Anexo 2).
+- [x] Cámara: `OffthreadVideo` de `public/pablo.mp4`, *gated* por prop `hasFootage`
+      (placeholder con instrucciones mientras no haya clip).
+- [x] **Bug cazado por advisor + corregido:** la cámara se montaba dentro de cada `<Sequence>`
+      → el clip se **reiniciaba en cada sección** (y se perdía el audio del cierre). Arreglo:
+      una sola instancia a nivel raíz, 120 s; el cierre la tapa con fondo opaco pero el audio
+      sigue. **Verificado** con un clip-señuelo cronometrado: el contador sube 14→15 cruzando
+      el límite de los 15 s (antes se reiniciaba a 0).
+- [x] Verificación empírica: `Sample` 5 s → mp4 (ffprobe h264/aac); `BecaVideo` completo →
+      `out/beca-video.mp4` (120,04 s, 1920×1080); stills de intro/mapa-mental/cierre revisados.
+- [x] `README.md` de uso + skill global reutilizable `~/.claude/skills/video-animado/`.
+- [x] **Limpieza AIOS** (fuera de este proyecto): borrados `sreca` (reemplazado por este),
+      `synertia` y `aios-second-brain` (Pablo aprobó); `kinesis` conservado (sin backup).
+- [x] Calculadora sigue **47/47 tests verde**; PROJECT.md actualizado.
+
+### Pendiente de Pablo (vídeo)
+- [ ] Grabar el clip (horizontal, cara y hombros, 2 min) → `video/public/pablo.mp4`.
+- [ ] Poner `hasFootage: true` en `src/Root.tsx` y `npm run render`.
+- [ ] Ajustar tiempos de sección en `src/script.ts` para que cuadren con su locución real
+      (previsualizar con `npm run studio`).
+
+## 2026-06-29 · It-7 — perfeccionar la app (UI pro-limpia + marco legal con fuentes)
+
+Foco del handoff `docs/handoffs/2026-06-28-perfeccionar-app.md`: app más amigable+pro,
+lectura del marco legal con fuentes, benchmark de competidores. Trabajo **view-only**
+(núcleo de cálculo intacto → los 47 tests siguen verde).
+
+- [x] **Investigación legal verificada EN FUENTE** (no de memoria; el caveat del handoff se
+      confirmó, no estaba stale):
+  - Autoconsumo: **RD 244/2019** (BOE-A-2019-5089), vigente, modificado por **RDL 7/2026**.
+  - Agrivoltaica + PAC: **RD 916/2025** (14-oct-2025, BOE-A-2025-20583) modifica el art.
+    9.12 del RD 1048/2022 → la parcela agrivoltaica mantiene el **100% de superficie
+    elegible** (vs solar normal = improductiva) *si la agricultura sigue siendo la principal*.
+    **Criterios técnicos (altura, ocupación, merma) = POR CONCRETAR** por desarrollo posterior
+    → confirma la disciplina "ayuda = upside, no cimiento".
+  - Ayudas jóvenes Asturias: **AYUD0518T01** (oficial) — prima 25.000-50.000 € + incrementos
+    (láctea, extensiva, mujer, ecológica); marco PEPAC 2023-27 / Reg. (UE) 2021/2115.
+- [x] **Benchmark de competidores** (firecrawl): EnergySage (dirección→factura→ahorro, ultra
+      simple, lidera con el ahorro), Clean Energy Project Builder (payback + valor 10 años +
+      TIR). Patrón adoptado: **pocos inputs + resultado-primero + transparencia de fuentes**.
+- [x] **Identidad visual = pro-limpia** (Pablo lo eligió; hand-drawn se queda en el vídeo).
+      Diseño con `ui-ux-pro-max`: paleta verde bosque #0f7a47 + oro solar + crema, fuente
+      **Fira Sans**, KPI cards (borde lateral de color, label en mayúsculas + valor grande),
+      chips numerados de sección. Accesibilidad mantenida como **suelo duro** (columna única,
+      texto grande, español llano) — NO se convirtió en rejilla BI densa.
+- [x] **Nuevo `.streamlit/config.toml`** (tema pro), **vista `app/ui/app.py` rediseñada**
+      (8 secciones, banda hero de 3 KPI, inputs en card, panel legal).
+- [x] **NUEVO `app/core/legal.py`** — marco legal como datos estructurados (tema/resumen/
+      estado/norma/fuente_url) con etiqueta de estado (`vigente`/`principio`/`por_concretar`)
+      y enlace a la fuente oficial. La rentabilidad se sostiene **sin** ayudas (texto explícito).
+- [x] **NUEVO `tests/test_legal.py`** (4 guards): toda entrada con fuente https, dominio
+      oficial (boe.es/asturias.es/europa.eu/…), estado válido, y el caveat agrivoltaico
+      presente y etiquetado. Blinda la disciplina "citar en fuente". **51/51 tests verde.**
+- [x] **Verificación headless** (Playwright bundled + Chrome vía CDP): desktop ✅
+      (hero, KPI band 1.897 €/43%/8,6 años, secciones 3-5, cards legales con badges+enlaces
+      BOE, informe, footer) + **móvil** ✅ (reflow a columna única, cards apiladas, texto
+      grande). Capturas en `/tmp/agri-final-*.png`, `/tmp/agri-mobile*.png`.
+      GOTCHA observado: Streamlit 1.58.0 sirve UNA sesión buena y al hacer `reload` se queda
+      en blanco → verificar siempre en **primer load** de un server fresco, sin recargar.
+
+### Done-bar de "perfeccionar" (cumplido salvo visto bueno de Pablo)
+(a) lee pro Y pasa accesibilidad ✅ · (b) panel legal con cada cifra en fuente + estado +
+"upside" explícito ✅ · (c) 51/51 verde + guard legal ✅ · (d) **Pablo aprueba el look**
+(pendiente — revisar capturas).
+
+### Pendiente / posible siguiente iteración
+- [ ] Visto bueno de Pablo al look pro-limpio.
+- [ ] (opcional) Subir más el listón del benchmark: comparador lado a lado, o un “¿y si…?”
+      con escenarios guardados.
+- [ ] (opcional) Deploy 1-click a Streamlit Community Cloud para que el jurado lo abra.
+
+## 2026-06-29 · It-8 — rediseño VISUAL-FIRST enterprise (Pablo redirigió)
+
+Pablo, tras pedir verla: **"demasiado texto; todo implícito en gráficas/modelos; nada de
+prosa; fondo blanco, verde/azul/naranja tipo EDP/PowerBI/AWS/Oracle; sin emojis ni imágenes;
+todo calculado desde los datos que se importen".** Forks clavados con él (AskUserQuestion):
+import = mínimos + CSV opcional · texto = visual puro 0 prosa · legal = FUERA de la app
+(va al informe). It-7 (panel legal en la app, look cálido) → descartado.
+
+- [x] **Tema enterprise** (`.streamlit/config.toml` + CSS): fondo BLANCO, **IBM Plex Sans**,
+      paleta verde `#107c41` / azul `#0a6ed1` / naranja `#ea7600` sobre blanco. Sin emojis,
+      sin imágenes. `layout="wide"`.
+- [x] **`app/ui/app.py` reescrita visual-first** — fuera TODA la prosa (`st.caption`/`st.info`/
+      párrafos). La información vive en gráficas + títulos cortos + leyendas:
+      KPI cards (borde superior de color) · **donuts** cobertura/autoconsumo (Plotly) ·
+      **gauge THI** con zonas verde/ámbar/naranja/rojo + aguja · **barra de uso del suelo**
+      (pasto con luz vs sombra) + LER · **curva generación-vs-consumo** del día medio (el
+      desfase sol-mediodía / ordeño-alba-ocaso se VE, sin explicarlo) · barras mensuales ·
+      heatmap firma solar · KPIs de impacto. Botón de informe sin emoji.
+- [x] **Import de consumo real** (lo que pidió): `app/core/importador.py` `parse_consumo()`
+      (CSV robusto: `;`/`,`, coma decimal ES, cabecera; toma la última columna numérica; 24
+      valores→curva diaria, 8760→horario anual con perfil medio, 12→mensual, otro→suma anual).
+      `st.file_uploader` → si hay CSV, **consumo y forma horaria reales** alimentan autoconsumo
+      y economía; si no, estimación por vacas. Caption "Importado/Estimado".
+- [x] **Núcleo extendido (aditivo, núcleo de cálculo intacto):** `perfil.simular_autoconsumo`
+      acepta `pesos_carga` (curva 24 h real); `economics.evaluar_economia` acepta
+      `consumo_anual_override`. Nuevos tests: `test_importador.py` (6, incl. **integración
+      glue import→cálculo mueve KPI**) + `test_consumo_override_se_usa`. **58/58 verde.**
+- [x] **Legal movido al INFORME** (Pablo): `informe.py` ahora monta `MARCO_LEGAL` (badges de
+      estado + enlaces oficiales) → `legal.py` deja de estar huérfano y `test_legal` sigue vivo.
+      Emoji del título del informe quitado.
+- [x] **Advisor cazó 4 (corregidos):** (1) **CSV sin probar e2e** → verificado la ruta exacta
+      de la app en Python (24h: autoconsumo 42→74%, ahorro 1.897→2.696 €; 8760: cobertura
+      42,5→43,9%) + test de integración; (2) THI gauge "74.4"→`valueformat=".0f"`="74";
+      (3) texto inglés del uploader ("200MB per file") → CSS oculta las instrucciones;
+      (4) `legal.py` huérfano → cableado al informe.
+- [x] **Verificación visual** (browser-harness, first-load): dashboard enterprise OK — KPIs,
+      donuts (cobertura azul / autoconsumo naranja), gauge THI con zonas, barra uso del suelo,
+      **curva gen-vs-consumo** (el money shot), barras + heatmap. Capturas `/tmp/it8-1..4.png`.
+
+### BLOQUEO de visualización (importante)
+Streamlit 1.58.0 en esta máquina sirve **UNA sesión buena**; cualquier **rerun o reload**
+(incluido subir un CSV) deja el server **en blanco** para todos. Verificado con flags
+robustos (CORS/XSRF off, fileWatcher none) — persiste. Por eso:
+- **Para ver la app local:** abrir un server **recién arrancado, primer load, SIN recargar**.
+- **Fix permanente recomendado:** desplegar a **Streamlit Community Cloud** (URL estable, sin
+  el quirk de WS local, el jurado la abre). Requiere push a GitHub público = **GATED** (OK Pablo).
+- browser-harness usa el Chrome REAL de Pablo (tabs privados Alpaca/Gmail/trading) → NO usar
+  `ensure_real_tab`; targetear con `new_tab`+`current_tab`. La conexión CDP pide "Allow" en
+  chrome://inspect (acción manual de Pablo). Móvil = CDP `setDeviceMetricsOverride`.
+
+### Done-bar It-8: (a) visual-first 0 prosa ✅ (b) enterprise blanco+verde/azul/naranja, sin
+emojis/imágenes ✅ (c) import CSV funcionando+probado ✅ (d) legal en el informe ✅ (e) 58/58 ✅
+(f) **Pablo aprueba el look + decide deploy = PENDIENTE.**
+
 ## Checkpoints para Pablo (revisar cuando vuelva)
 - ¿Idea A correcta? (si no, revertir barato — spec §0).
 - ¿Geometría v1 = bajo-panel-elevado OK? (spec §6).
+- **¿Aprobado el look enterprise visual-first (It-8)?**
+- **¿Desplegar a Streamlit Cloud (push GitHub público) para verla/que la abra el jurado?**

@@ -1,10 +1,17 @@
 [theme]
-# Paleta rural cálida: verde pradera + tierra clara, alto contraste para accesibilidad.
-primaryColor = "#5f7d2e"
-backgroundColor = "#faf8f1"
-secondaryBackgroundColor = "#eef0e2"
-textColor = "#2b2b22"
+# Paleta agrivoltaica profesional: verde bosque (campo) + oro solar (sol) sobre crema
+# cálida. Alto contraste para accesibilidad (ancianos + jóvenes).
+primaryColor = "#0f7a47"
+backgroundColor = "#f7f4ec"
+secondaryBackgroundColor = "#ffffff"
+textColor = "#18261d"
 font = "sans serif"
+baseFontSize = 17
+baseRadius = "0.7rem"
+
+[client]
+# Oculta el menú "Deploy" / hamburguesa: look de producto, no de demo.
+toolbarMode = "minimal"
 
 [server]
 headless = true

@@ -8,6 +8,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import date
 
+from app.core.legal import MARCO_LEGAL, ESTADOS
+
 
 @dataclass
 class DatosInforme:
@@ -60,6 +62,22 @@ def _bloque_impacto(d: DatosInforme) -> str:
  adopción, no una promesa.</p>"""
 
 
+def _bloque_legal() -> str:
+    """Marco legal y ayudas (citado en fuente oficial). Va en el informe, no en la app."""
+    filas = []
+    for it in MARCO_LEGAL:
+        etiqueta, color = ESTADOS[it.estado]
+        filas.append(
+            f'<p style="margin:.5rem 0"><b>{it.tema}</b> '
+            f'<span style="color:{color};font-size:11pt">[{etiqueta}]</span><br>'
+            f'<span style="font-size:13pt">{it.resumen}</span><br>'
+            f'<span class="src">{it.norma} · '
+            f'<a href="{it.fuente_url}">{it.fuente_label}</a></span></p>')
+    return ("<h2>Marco legal y ayudas</h2>\n"
+            '<p class="src">La rentabilidad se sostiene sin ayudas; las ayudas son un extra. '
+            "Fuentes oficiales:</p>\n" + "\n".join(filas))
+
+
 def informe_html(d: DatosInforme) -> str:
     """Construye el HTML imprimible del informe."""
     hoy = date.today().isoformat()
@@ -76,7 +94,7 @@ def informe_html(d: DatosInforme) -> str:
  .kpi b {{ font-size: 20pt; color:#3d5220; display:block }}
  .src {{ font-size: 11pt; color:#666 }}
 </style></head><body>
-<h1>🐄☀️ Sol y pasto en la misma finca</h1>
+<h1>Sol y pasto en la misma finca</h1>
 <p class="src">Estudio de agrivoltaica ganadera · {d.ubicacion} · {hoy}</p>
 
 <h2>La granja</h2>
@@ -107,6 +125,7 @@ def informe_html(d: DatosInforme) -> str:
  el <b>refugio</b> de lluvia y viento, no la sombra contra el calor.</p>
 
 {_bloque_impacto(d)}
+{_bloque_legal()}
 <p class="src">Fuentes: recurso solar de PVGIS v5.2 · consumo 516 kWh/vaca·año (estudio
  Castilla y León) · CAPEX FV 800-1.400 €/kWp (mercado ES 2026) · THI NRC 1971 · factor de
  CO₂ de la red española 0,258 kg/kWh (MITECO 2025). Modelo de pérdidas coherente con PVGIS.

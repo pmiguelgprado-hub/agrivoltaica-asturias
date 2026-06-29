@@ -49,3 +49,9 @@ def test_evaluar_economia_coherente():
     assert r.ahorro_anual_eur > 0
     assert r.payback_anios > 0
     assert r.consumo_anual_kwh == pytest.approx(40 * 516)
+
+
+def test_consumo_override_se_usa():
+    # consumo real importado (CSV) manda sobre la estimación por vacas
+    r = evaluar_economia(15, 18_000, 40, consumo_anual_override=30_000)
+    assert r.consumo_anual_kwh == pytest.approx(30_000)

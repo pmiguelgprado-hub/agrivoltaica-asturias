@@ -94,13 +94,17 @@ def evaluar_economia(kwp: float, energia_anual_kwh: float, n_vacas: float,
                      base_kwp: float = CAPEX_BASE_KWP,
                      premium: float = PREMIUM_AGRIVOLTAICO,
                      ayuda_frac: float = 0.0,
-                     fraccion_autoconsumo_override: float | None = None) -> ResultadoEconomico:
+                     fraccion_autoconsumo_override: float | None = None,
+                     consumo_anual_override: float | None = None) -> ResultadoEconomico:
     """Economía completa. `ayuda_frac` = fracción de CAPEX a fondo perdido (upside).
 
     `fraccion_autoconsumo_override`: si se pasa (p.ej. de la simulación horaria en
     perfil.simular_autoconsumo), se usa en vez de la heurística.
+    `consumo_anual_override`: consumo real (p.ej. importado de la factura/CSV); si no, se
+    estima desde el número de vacas.
     """
-    consumo = consumo_granja(n_vacas)
+    consumo = (consumo_anual_override if consumo_anual_override is not None
+               else consumo_granja(n_vacas))
     sc = (fraccion_autoconsumo_override if fraccion_autoconsumo_override is not None
           else fraccion_autoconsumo(energia_anual_kwh, consumo))
     autoc = energia_anual_kwh * sc

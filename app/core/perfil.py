@@ -34,11 +34,19 @@ PESOS_CARGA_LACTEA = [
 ]
 
 
-def perfil_carga_diaria(consumo_anual_kwh: float) -> list[float]:
-    """Reparte el consumo diario (consumo_anual/365) en 24 horas según la curva láctea."""
-    total = sum(PESOS_CARGA_LACTEA)
+def perfil_carga_diaria(consumo_anual_kwh: float,
+                        pesos: list[float] | None = None) -> list[float]:
+    """Reparte el consumo diario (consumo_anual/365) en 24 horas según una curva de pesos.
+
+    Si `pesos` es None usa la curva láctea por defecto; si se pasa (p.ej. de un CSV real
+    de la granja), se usa esa forma. La curva se normaliza, así que da igual su escala.
+    """
+    pesos = pesos if pesos else PESOS_CARGA_LACTEA
+    if len(pesos) != 24:
+        raise ValueError("pesos debe tener 24 valores (uno por hora)")
+    total = sum(pesos) or 1.0
     diario = consumo_anual_kwh / 365.0
-    return [diario * p / total for p in PESOS_CARGA_LACTEA]
+    return [diario * p / total for p in pesos]
 
 
 def generacion_horaria_dia(energia_mes_kwh: float, dias_mes: int,
@@ -85,8 +93,12 @@ class ResultadoAutoconsumo:
 
 
 def simular_autoconsumo(kwp: float, consumo_anual_kwh: float,
-                        ubic: Ubicacion | None = None) -> ResultadoAutoconsumo:
+                        ubic: Ubicacion | None = None,
+                        pesos_carga: list[float] | None = None) -> ResultadoAutoconsumo:
     """Cruza generación y carga hora a hora sobre 12 días tipo. Autoconsumo sin batería.
+
+    `pesos_carga` opcional: curva de 24 h de la granja (p.ej. de su factura/CSV). Si no se
+    pasa, usa el perfil láctea por defecto.
 
     >>> r = simular_autoconsumo(17, 20640)
     >>> 0.0 < r.fraccion_autoconsumo < 1.0
@@ -96,7 +108,7 @@ def simular_autoconsumo(kwp: float, consumo_anual_kwh: float,
         raise ValueError("kwp debe ser > 0")
     ubic = ubic or ubicacion_asturias_central()
     prod = produccion_fv(kwp, ubic)
-    carga_dia = perfil_carga_diaria(consumo_anual_kwh)
+    carga_dia = perfil_carga_diaria(consumo_anual_kwh, pesos_carga)
 
     autoc = 0.0
     gen_total = 0.0
